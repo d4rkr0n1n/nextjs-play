@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js
@@ -19,3 +23,7 @@ jobs:
     - run: npm ci
     - run: npm run build
     # - run: npm test
+    - name: Attest
+      uses: actions/attest-build-provenance@v2
+      with:
+        subject-path: 'app, public'
